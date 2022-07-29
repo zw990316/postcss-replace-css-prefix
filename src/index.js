@@ -31,16 +31,18 @@
 module.exports = (opts = { }) => {
     return {
     postcssPlugin: 'postcss-test',
-    
     Once (root, postcss) {
-        root.nodes.forEach(node => {
-            if(node.type === 'rule'&& node.selector.includes('-el')){
-                const clone = node.clone()
-                const reg = new RegExp(`(^|(\\s)*)\\.${prefix}(?!icon)`, 'g')
-                clone.selector = selector.replace(reg, `$1.gx-`)
-                node.replaceWith(clone)
-            }
-        })
+      console.log("99999",JSON.stringify(root));
+      root.nodes.forEach(node => {
+        
+        if(node.type === 'rule' && node.selector.includes('el-')){
+          console.log("进来了");
+            const clone = node.clone()
+            const reg = new RegExp(`(^|(\\s)*)\\.${'el-'}(?!icon)`, 'g')
+            clone.selector = node.selector.replace(reg, `$1.gx-`)
+            node.replaceWith(clone)
+        }
+      })
     // 此处root即为转换后的AST，此方法转换一次css将调用一次
     },
     
@@ -49,5 +51,5 @@ module.exports = (opts = { }) => {
     }
     
    }
-   }
+  }
    module.exports.postcss = true
