@@ -28,26 +28,21 @@
 
 // module.exports.postcss = true
 
-module.exports = (opts = { }) => {
+module.exports = (opts = {}) => {
+    const {prefix,replace} = opts || {}
     return {
-    postcssPlugin: 'postcss-test',
-    
-    Once (root, postcss) {
+    postcssPlugin: 'postcss-replace-css-prefix',
+    Once (root) {
         root.nodes.forEach(node => {
-            if(node.type === 'rule'&& node.selector.includes('-el')){
+            if(node.type === 'rule'&& node.selector.includes(prefix) && !node.selector.includes(replace)){
                 const clone = node.clone()
                 const reg = new RegExp(`(^|(\\s)*)\\.${prefix}(?!icon)`, 'g')
-                clone.selector = selector.replace(reg, `$1.gx-`)
+                clone.selector = selector.replace(reg, `$1.${replace}`)
                 node.replaceWith(clone)
             }
         })
     // 此处root即为转换后的AST，此方法转换一次css将调用一次
     },
-    
-   Comment(comment) {
-    comment.text = ''
-    }
-    
    }
-   }
-   module.exports.postcss = true
+}
+module.exports.postcss = true

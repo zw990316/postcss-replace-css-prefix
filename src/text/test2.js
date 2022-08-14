@@ -6,5 +6,5 @@ postcss([plugin]).process(`
  color: #ffffff;
 }
 `).then(result => {
- console.log(result)
+ console.log(JSON.stringify(result))
 })
