@@ -34,10 +34,10 @@ module.exports = (opts = {}) => {
     postcssPlugin: 'postcss-replace-css-prefix',
     Once (root) {
         root.nodes.forEach(node => {
-            if(node.type === 'rule'&& node.selector.includes(prefix) && !node.selector.includes(replace)){
+            if(node.type === 'rule' && node.selector.includes(prefix) && !node.selector.includes(replace)){
                 const clone = node.clone()
                 const reg = new RegExp(`(^|(\\s)*)\\.${prefix}(?!icon)`, 'g')
-                clone.selector = selector.replace(reg, `$1.${replace}`)
+                clone.selector = node.selector.replace(reg, `$1.${replace}`)
                 node.replaceWith(clone)
             }
         })
